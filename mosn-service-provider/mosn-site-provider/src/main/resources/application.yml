@@ -1,0 +1,9 @@
+systemName: mdes-site-provider
+server:
+    port: 9400
+spring:
+  application:
+    name: mdes-busiclogic
+  main:
+    # 允许存在多个Feign调用相同Service的接口
+    allow-bean-definition-overriding: true

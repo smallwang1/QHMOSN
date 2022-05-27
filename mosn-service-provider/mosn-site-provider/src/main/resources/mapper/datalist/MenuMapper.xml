@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.piesat.site.datalist.service.mapper.MenuMapper">
+
+    <resultMap type="com.piesat.site.datalist.service.entity.MenuInfo" id="MenuResult">
+        <id     property="id"                column="ID"/>
+        <result property="name"              column="NAME"/>
+        <result property="pid"               column="PID"/>
+        <result property="code"              column="CODE"/>
+        <result property="appCode"           column="APPCODE"/>
+        <result property="status"            column="STATUS"/>
+        <result property="hasNext"           column="HASNEXT"/>
+        <result property="url"               column="URL"/>
+        <result property="head"              column="HEAD"/>
+        <result property="initParam"         column="INITPARAM"/>
+        <result property="sort"              column="SORT"/>
+        <result property="format"            column="FORMAT"/>
+        <result property="typeName"          column="TYPE_NAME"/>
+        <result property="typeValue"         column="TYPE_VALUE"/>
+        <result property="typeCode"          column="TYPE_CODE"/>
+        <result property="levelName"         column="LEVEL_NAME"/>
+        <result property="levelValue"        column="LEVEL_VALUE"/>
+        <result property="levelCode"         column="LEVEL_CODE"/>
+        <result property="productId"         column="PRODUCT_ID"/>
+        <result property="pagUrl"            column="PAGE_URL"/>
+        <result property="isLink"            column="IS_LINK"/>
+        <result property="createTime"        column="CREATE_TIME"/>
+        <result property="isProduct"         column="IS_PRODUCT"/>
+    </resultMap>
+
+    <sql id="selectMenuVo">
+        select
+            ID,
+            NAME,
+            PID,
+            CODE,
+            APPCODE,
+            STATUS,
+            HASNEXT,
+            URL,
+            HEAD,
+            INITPARAM,
+            SORT,
+            FORMAT,
+            TYPE_NAME,
+            TYPE_VALUE,
+            TYPE_CODE,
+            LEVEL_NAME,
+            LEVEL_VALUE,
+            LEVEL_CODE,
+            PRODUCT_ID,
+            PAGE_URL,
+            IS_LINK,
+            CREATE_TIME,
+            IS_PRODUCT
+        from SYS_MENU_SELECT
+    </sql>
+
+    <select id="selectMenuList" parameterType="com.piesat.site.datalist.service.vo.MenuVo" resultMap="MenuResult">
+        <include refid="selectMenuVo"/>
+        <where>
+            <if test="pid != null and pid != ''">
+                AND PID = #{pid}
+            </if>
+            <if test="name != null and name != ''">
+                AND NAME like CONCAT(CONCAT('%', #{name}), '%')
+            </if>
+            <if test="appCode != null and appCode != ''">
+                AND APPCODE = #{appCode}
+            </if>
+            <if test="productId != null and productId != ''">
+                AND PRODUCT_ID = #{productId}
+            </if>
+        </where>
+        order by CREATE_TIME desc
+    </select>
+</mapper>

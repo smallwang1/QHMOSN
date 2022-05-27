@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.piesat.site.datasearch.service.mapper.MosnFormMapper">
+
+    <resultMap type="com.piesat.site.datasearch.service.entity.MosnForm" id="MosnFormResult">
+        <id     property="formId"          column="form_id"/>
+        <result property="formCode"        column="form_code"/>
+        <result property="formName"        column="form_name"/>
+        <result property="status"          column="status"/>
+        <result property="orderNum"        column="order_num"/>
+        <result property="createBy"        column="create_by"/>
+        <result property="createTime"      column="create_time"/>
+        <result property="updateBy"        column="update_by"/>
+        <result property="updateTime"      column="update_time"/>
+        <result property="remark"          column="remark"/>
+    </resultMap>
+
+    <sql id="selectFormVo">
+        select
+            form_id,
+            form_code,
+            form_name,
+            status,
+            order_num,
+            create_by,
+            create_time,
+            update_by,
+            update_time,
+            remark
+        from mosn_form
+    </sql>
+
+    <select id="selectFormByIds" parameterType="java.lang.Long" resultMap="MosnFormResult">
+        <include refid="selectFormVo"/>
+        where form_id in
+        <foreach collection="array" item="formIds" open="(" separator="," close=")">
+            #{formIds}
+        </foreach>
+        order by order_num asc
+    </select>
+
+    <select id="selectFromList" parameterType="com.piesat.site.datasearch.service.entity.MosnForm" resultMap="MosnFormResult">
+        <include refid="selectFormVo"/>
+        <where>
+            <if test="formName != null and formName != ''">
+                AND form_name = like concat('%', #{formName}, '%')
+            </if>
+        </where>
+        order by order_num asc
+    </select>
+
+    <select id="selectFormById" parameterType="java.lang.Long" resultMap="MosnFormResult">
+        <include refid="selectFormVo"/>
+        where form_id = #{formId}
+        order by order_num asc
+    </select>
+
+    <insert id="insertFrom" parameterType="com.piesat.site.datasearch.service.entity.MosnForm">
+        insert into mosn_form(
+        <if test="formId != null and formId != ''">form_id,</if>
+        <if test="formName != null and formName != ''">form_name,</if>
+        <if test="formCode != null and formCode != ''">form_code,</if>
+        <if test="status != null and status != ''">status,</if>
+        <if test="orderNum != null and orderNum != ''">order_num,</if>
+        <if test="createBy != null and createBy != ''">create_by,</if>
+        <if test="remark != null and remark != ''">remark,</if>
+        create_time
+        )values(
+        <if test="formId != null and formId != ''">#{formId},</if>
+        <if test="formName != null and formName != ''">#{formName},</if>
+        <if test="formCode != null and formCode != ''">#{formCode},</if>
+        <if test="status != null and status != ''">#{status},</if>
+        <if test="orderNum != null and orderNum != ''">#{orderNum},</if>
+        <if test="createBy != null and createBy != ''">#{createBy},</if>
+        <if test="remark != null and remark != ''">#{remark},</if>
+        sysdate()
+        )
+    </insert>
+
+    <update id="updateForm" parameterType="com.piesat.site.datasearch.service.entity.MosnForm">
+        update mosn_form
+        <set>
+            <if test="formName != null and formName != ''">form_name = #{formName},</if>
+            <if test="formCode != null and formCode != ''">form_code = #{formCode},</if>
+            <if test="status != null and status != ''">status = #{status},</if>
+            <if test="remark != null and remark != ''">remark = #{remark},</if>
+            update_time = sysdate()
+        </set>
+        where form_id = #{formId}
+    </update>
+
+    <delete id="deleteForm" parameterType="Long">
+        delete from mosn_form1 where form_id in
+        <foreach collection="array" item="formIds" open="(" separator="," close=")">
+            #{formIds}
+        </foreach>
+    </delete>
+</mapper>

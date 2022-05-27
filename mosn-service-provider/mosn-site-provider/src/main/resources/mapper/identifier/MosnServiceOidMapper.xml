@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.piesat.site.identifier.service.mapper.MosnServiceOidMapper">
+
+    <resultMap type="com.piesat.site.identifier.service.entity.MosnServiceOidEntity" id="MosnServiceOidResult">
+        <id     property="busiId"                            column="busi_id"/>
+        <result property="name"                              column="name"/>
+        <result property="serviceUnit"                       column="service_unit"/>
+        <result property="serviceName"                       column="service_name"/>
+        <result property="serviceAddress"                    column="service_address"/>
+        <result property="servicePhone"                      column="service_phone"/>
+        <result property="serviceEmail"                      column="service_email"/>
+        <result property="serviceUse"                        column="service_use"/>
+        <result property="limitGrading"                      column="limit_grading"/>
+        <result property="limitDesc"                         column="limit_desc"/>
+        <result property="serviceBusiness"                   column="service_business"/>
+        <result property="serviceInfoOther"                  column="service_info_other"/>
+        <result property="serviceAmount"                     column="service_amount"/>
+        <result property="serviceDateAuthTimeStart"          column="service_date_auth_time_start"/>
+        <result property="serviceDateAuthTimeEnd"            column="service_date_auth_time_end"/>
+        <result property="origin"                            column="origin"/>
+        <result property="status"                            column="status"/>
+        <result property="serviceId"                         column="service_d"/>
+        <result property="createBy"                          column="create_by"/>
+        <result property="createTime"                        column="create_time"/>
+        <result property="updateBy"                          column="update_by"/>
+        <result property="updateTime"                        column="update_time"/>
+        <result property="remark"                            column="remark"/>
+    </resultMap>
+
+    <sql id="selectServiceOidVo">
+        select
+            busi_id,
+            name,
+            service_unit,
+            service_name,
+            service_address,
+            service_phone,
+            service_email,
+            service_use,
+            limit_grading,
+            limit_desc,
+            service_business,
+            service_info_other,
+            service_amount,
+            service_date_auth_time_start,
+            service_date_auth_time_end,
+            origin,
+            status,
+            service_id,
+            create_by,
+            create_time,
+            update_by,
+            update_time,
+            remark
+        from mosn_service_oid_entity
+    </sql>
+
+    <select id="selectServiceOidById" parameterType="java.lang.String" resultMap="MosnServiceOidResult">
+        <include refid="selectServiceOidVo"/>
+        where busi_id = #{busiId}
+    </select>
+
+    <select id="selectServiceOidList" parameterType="com.piesat.site.identifier.service.vo.ServiceOidVo" resultMap="MosnServiceOidResult">
+        <include refid="selectServiceOidVo"/>
+        <where>
+            <if test="name != null and name != ''">
+                AND name like CONCAT(CONCAT('%', #{name}), '%')
+            </if>
+            <if test="status != null and status != ''">
+                AND status = #{status}
+            </if>
+            <if test="startTime != null and startTime != ''">
+                <![CDATA[ and TO_DATE(#{startTime}, 'YYYY-MM-DD') <= create_time ]]>
+            </if>
+            <if test="endTime != null and endTime != ''">
+                <![CDATA[ and TO_DATE(CONCAT(#{endTime}, ' 23:59:59'), 'YYYY-MM-DD HH24:MI:SS') >= create_time ]]>
+            </if>
+        </where>
+        order by create_time desc
+    </select>
+
+    <insert id="insertServiceOid" parameterType="com.piesat.site.identifier.service.entity.MosnServiceOidEntity">
+        insert into mosn_service_oid_entity (
+        <if test="busiId != null and busiId != ''">busi_id,</if>
+        <if test="name != null and name != ''">name,</if>
+        <if test="serviceName != null and serviceName != ''">service_name,</if>
+        <if test="serviceAddress != null and serviceAddress != ''">service_address,</if>
+        <if test="servicePhone != null and servicePhone != ''">service_phone,</if>
+        <if test="serviceEmail != null and serviceEmail != ''">service_email,</if>
+        <if test="serviceUse != null and serviceUse != ''">service_use,</if>
+        <if test="serviceBusiness != null and serviceBusiness != ''">service_business,</if>
+        <if test="serviceInfoOther != null and serviceInfoOther != ''">service_info_other,</if>
+        <if test="serviceDateAuthTimeStart != null and serviceDateAuthTimeStart != ''">service_date_auth_time_start,</if>
+        <if test="serviceDateAuthTimeEnd != null and serviceDateAuthTimeEnd != ''">service_date_auth_time_end,</if>
+        <if test="status != null and status != ''">status,</if>
+        <if test="createBy != null and createBy != ''">create_by,</if>
+        <if test="remark != null and remark != ''">remark,</if>
+        create_time
+        )values(
+        <if test="busiId != null and busiId != ''">#{busiId},</if>
+        <if test="name != null and name != ''">#{name},</if>
+        <if test="serviceName != null and serviceName != ''">#{serviceName},</if>
+        <if test="serviceAddress != null and serviceAddress != ''">#{serviceAddress},</if>
+        <if test="servicePhone != null and servicePhone != ''">#{servicePhone},</if>
+        <if test="serviceEmail != null and serviceEmail != ''">#{serviceEmail},</if>
+        <if test="serviceUse != null and serviceUse != ''">#{serviceUse},</if>
+        <if test="serviceBusiness != null and serviceBusiness != ''">#{serviceBusiness},</if>
+        <if test="serviceInfoOther != null and serviceInfoOther != ''">#{serviceInfoOther},</if>
+        <if test="serviceDateAuthTimeStart != null and serviceDateAuthTimeStart != ''">#{serviceDateAuthTimeStart},</if>
+        <if test="serviceDateAuthTimeEnd != null and serviceDateAuthTimeEnd != ''">#{serviceDateAuthTimeEnd},</if>
+        <if test="status != null and status != ''">#{status},</if>
+        <if test="createBy != null and createBy != ''">#{createBy},</if>
+        <if test="remark != null and remark != ''">#{remark},</if>
+        sysdate()
+        )
+    </insert>
+
+    <update id="updateServiceOid" parameterType="com.piesat.site.identifier.service.entity.MosnServiceOidEntity">
+        update mosn_service_oid_entity
+        <set>
+            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="serviceUnit != null and serviceUnit != ''">service_unit = #{serviceUnit},</if>
+            <if test="serviceName != null and serviceName != ''">service_name = #{serviceName},</if>
+            <if test="serviceAddress != null and serviceAddress != ''">service_address = #{serviceAddress},</if>
+            <if test="servicePhone != null and servicePhone != ''">service_phone = #{servicePhone},</if>
+            <if test="serviceEmail != null and serviceEmail != ''">service_email = #{serviceEmail},</if>
+            <if test="serviceUse != null and serviceUse != ''">service_use = #{serviceUse},</if>
+            <if test="limitGrading != null and limitGrading != ''">limit_grading = #{limitGrading},</if>
+            <if test="limitDesc != null and limitDesc != ''">limit_desc = #{limitDesc},</if>
+            <if test="serviceBusiness != null and serviceBusiness != ''">service_business = #{serviceBusiness},</if>
+            <if test="serviceInfoOther != null and serviceInfoOther != ''">service_info_other = #{serviceInfoOther},</if>
+            <if test="serviceAmount != null and serviceAmount != ''">service_amount = #{serviceAmount},</if>
+            <if test="serviceDateAuthTimeStart != null and serviceDateAuthTimeStart != ''">service_date_auth_time_start = #{serviceDateAuthTimeStart},</if>
+            <if test="serviceDateAuthTimeEnd != null and serviceDateAuthTimeEnd != ''">service_date_auth_time_end = #{serviceDateAuthTimeEnd},</if>
+            <if test="origin != null and origin != ''">origin = #{origin},</if>
+            <if test="status != null and status != ''">status = #{status},</if>
+            <if test="serviceId != null and serviceId != ''">service_id = #{serviceId},</if>
+            <if test="remark != null and remark != ''">remark = #{remark},</if>
+            update_time = sysdate()
+        </set>
+        where busi_id = #{busiId}
+    </update>
+</mapper>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.piesat.site.datasearch.service.mapper.MosnButtonMapper">
+
+    <resultMap type="com.piesat.site.datasearch.service.entity.MosnButton" id="MosnButtonResult">
+        <id     property="id"                 column="id"/>
+        <result property="buttonName"        column="button_name"/>
+        <result property="buttonCode"        column="button_code"/>
+        <result property="status"             column="status"/>
+        <result property="orderNum"           column="order_num"/>
+        <result property="createBy"           column="create_by"/>
+        <result property="createTime"         column="create_time"/>
+        <result property="updateBy"           column="update_by"/>
+        <result property="updateTime"         column="update_time"/>
+        <result property="remark"             column="remark"/>
+    </resultMap>
+
+    <sql id="selectButtonVo">
+        select
+            id,
+            button_name,
+            button_code,
+            status,
+            order_num,
+            create_by,
+            create_time,
+            update_by,
+            update_time,
+            remark
+        from mosn_button
+    </sql>
+
+    <select id="selectButtonByIds" parameterType="java.lang.Long" resultMap="MosnButtonResult">
+        <include refid="selectButtonVo"/>
+        where id in
+        <foreach collection="array" item="buttonIds" open="(" separator="," close=")">
+            #{buttonIds}
+        </foreach>
+        order by order_num asc
+    </select>
+</mapper>

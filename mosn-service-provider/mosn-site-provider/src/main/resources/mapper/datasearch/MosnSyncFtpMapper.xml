@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.piesat.site.datasearch.service.mapper.MosnSyncFtpMapper">
+
+    <resultMap type="com.piesat.site.datasearch.service.entity.MosnSyncFtp" id="MosnSyncFtpResult">
+        <id     property="id"                  column="id"/>
+        <result property="orderNo"             column="order_no"/>
+        <result property="syncType"            column="sync_type"/>
+        <result property="syncParam"           column="sync_param"/>
+        <result property="syncServerId"        column="sync_server_id"/>
+        <result property="syncServerPath"      column="sync_server_path"/>
+        <result property="status"              column="status"/>
+        <result property="nextSyncTime"        column="next_sync_time"/>
+        <result property="createBy"            column="create_by"/>
+        <result property="createTime"          column="create_time"/>
+        <result property="updateBy"            column="update_by"/>
+        <result property="updateTime"          column="update_time"/>
+        <result property="remark"              column="remark"/>
+    </resultMap>
+
+    <sql id="selectSyncFtpVo">
+        select
+            id,
+            order_no,
+            sync_type,
+            sync_param,
+            sync_server_id,
+            sync_server_path,
+            status,
+            next_sync_time,
+            create_by,
+            create_time,
+            update_by,
+            update_time,
+            remark
+        from mosn_sync_ftp
+    </sql>
+
+    <select id="generatorSync" resultType="com.piesat.site.datasearch.service.vo.SyncVo">
+        SELECT
+            t.id AS "id",
+            t.order_no AS "syncNo",
+            t.sync_type AS "syncType",
+            t.sync_param AS "syncPeriod",
+            t.sync_server_id AS "syncServerId",
+            t.sync_server_path AS "syncServerPath",
+            t.STATUS AS "syncStatus",
+            t.next_sync_time AS "nextSyncTime",
+            s.file_type AS "fileType",
+            s.order_param AS "syncParam"
+        FROM
+            MOSN_SYNC_FTP t
+                LEFT JOIN MOSN_ORDER s ON t.order_no = s.order_no
+        WHERE
+            t.STATUS = '0'
+          AND s.order_status = '1'
+        ORDER BY
+            t.create_time ASC;
+    </select>
+
+    <select id="selectSyncFtpByorderNo" parameterType="java.lang.String" resultMap="MosnSyncFtpResult">
+        <include refid="selectSyncFtpVo"/>
+        where order_no = #{orderNo}
+    </select>
+
+    <insert id="insertSyncFtp" parameterType="com.piesat.site.datasearch.service.entity.MosnSyncFtp">
+        insert into mosn_sync_ftp(
+        <if test="orderNo != null and orderNo != ''">order_no,</if>
+        <if test="syncType != null and syncType != ''">sync_type,</if>
+        <if test="syncParam != null and syncParam != ''">sync_param,</if>
+        <if test="syncServerId != null and syncServerId != ''">sync_server_id,</if>
+        <if test="syncServerPath != null and syncServerPath != ''">sync_server_path,</if>
+        <if test="status != null and status != ''">status,</if>
+        <if test="nextSyncTime != null and nextSyncTime != ''">next_sync_time,</if>
+        <if test="createBy != null and createBy != ''">create_by,</if>
+        <if test="remark != null and remark != ''">remark,</if>
+        create_time
+        )values(
+        <if test="orderNo != null and orderNo != ''">#{orderNo},</if>
+        <if test="syncType != null and syncType != ''">#{syncType},</if>
+        <if test="syncParam != null and syncParam != ''">#{syncParam},</if>
+        <if test="syncServerId != null and syncServerId != ''">#{syncServerId},</if>
+        <if test="syncServerPath != null and syncServerPath != ''">#{syncServerPath},</if>
+        <if test="status != null and status != ''">#{status},</if>
+        <if test="nextSyncTime != null">#{nextSyncTime},</if>
+        <if test="createBy != null and createBy != ''">#{createBy},</if>
+        <if test="remark != null and remark != ''">#{remark},</if>
+        sysdate()
+        )
+    </insert>
+
+    <update id="updateSyncFtp" parameterType="com.piesat.site.datasearch.service.entity.MosnSyncFtp">
+        update mosn_sync_ftp
+        <set>
+            <if test="orderNo != null and orderNo != ''">order_no = #{orderNo},</if>
+            <if test="syncType != null and syncType != ''">sync_type = #{syncType},</if>
+            <if test="syncParam != null and syncParam != ''">sync_param = #{syncParam},</if>
+            <if test="syncServerId != null and syncServerId != ''">sync_server_id = #{syncServerId},</if>
+            <if test="syncServerPath != null and syncServerPath != ''">sync_server_path = #{syncServerPath},</if>
+            <if test="status != null and status != ''">status = #{status},</if>
+            <if test="nextSyncTime != null">next_sync_time = #{nextSyncTime},</if>
+            <if test="remark != null and remark != ''">remark = #{remark},</if>
+            update_time = sysdate()
+        </set>
+        where id = #{id}
+    </update>
+</mapper>

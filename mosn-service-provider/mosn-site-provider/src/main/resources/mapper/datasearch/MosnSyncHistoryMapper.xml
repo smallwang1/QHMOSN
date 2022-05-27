@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.piesat.site.datasearch.service.mapper.MosnSyncHistoryMapper">
+
+    <resultMap type="com.piesat.site.datasearch.service.entity.MosnSyncHistory" id="MosnSyncHistoryResult">
+        <id     property="id"              column="id"/>
+        <result property="syncNo"          column="sync_no"/>
+        <result property="syncType"        column="sync_type"/>
+        <result property="syncParam"       column="sync_param"/>
+        <result property="syncHost"        column="sync_host"/>
+        <result property="syncPath"        column="sync_path"/>
+        <result property="syncStatus"      column="sync_status"/>
+        <result property="createBy"        column="create_by"/>
+        <result property="createTime"      column="create_time"/>
+        <result property="updateBy"        column="update_by"/>
+        <result property="updateTime"      column="update_time"/>
+        <result property="remark"          column="remark"/>
+    </resultMap>
+
+    <sql id="selectSyncHistoryVo">
+        select
+            id,
+            sync_no,
+            sync_type,
+            sync_param,
+            sync_host,
+            sync_path,
+            sync_status,
+            create_by,
+            create_time,
+            update_by,
+            update_time,
+            remark
+        from mosn_sync_history
+    </sql>
+
+    <select id="selectSyncHisList" parameterType="java.lang.String" resultMap="MosnSyncHistoryResult">
+        <include refid="selectSyncHistoryVo"/>
+        where sync_no = #{syncNo}
+        order by create_time desc
+    </select>
+
+    <insert id="insertSyncHistory" parameterType="com.piesat.site.datasearch.service.entity.MosnSyncHistory">
+        insert into mosn_sync_history(
+        <if test="syncNo != null and syncNo != ''">sync_no,</if>
+        <if test="syncType != null and syncType != ''">sync_type,</if>
+        <if test="syncParam != null and syncParam != ''">sync_param,</if>
+        <if test="syncHost != null and syncHost != ''">sync_host,</if>
+        <if test="syncPath != null and syncPath != ''">sync_path,</if>
+        <if test="syncStatus != null and syncStatus != ''">sync_status,</if>
+        <if test="createBy != null and createBy != ''">create_by,</if>
+        <if test="remark != null and remark != ''">remark,</if>
+        create_time
+        )values(
+        <if test="syncNo != null and syncNo != ''">#{syncNo},</if>
+        <if test="syncType != null and syncType != ''">#{syncType},</if>
+        <if test="syncParam != null and syncParam != ''">#{syncParam},</if>
+        <if test="syncHost != null and syncHost != ''">#{syncHost},</if>
+        <if test="syncPath != null and syncPath != ''">#{syncPath},</if>
+        <if test="syncStatus != null and syncStatus != ''">#{syncStatus},</if>
+        <if test="createBy != null and createBy != ''">#{createBy},</if>
+        <if test="remark != null and remark != ''">#{remark},</if>
+        sysdate()
+        )
+    </insert>
+</mapper>

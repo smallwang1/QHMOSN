@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.piesat.site.system.dict.service.mapper.DictItemMapper">
+
+    <select id="queryDictItemList" parameterType="com.piesat.site.system.dict.service.dto.QueryDictItemReqDto" resultType="com.piesat.site.system.dict.service.entity.SysDictItem">
+        select ID as id,DICT_CODE as dictCode,ITEM_CODE as itemCode,ITEM_VALUE as itemValue,DESCRIPTION as DESCRIPTION ,SYS_DICT_ITEM.ORDER as order
+        from SYS_DICT_ITEM
+        <where>
+            <if test="itemValue!=null and itemValue!=''">
+                and ITEM_VALUE=#{itemValue}
+            </if>
+        </where>
+        where DICT_CODE=#{dictCode}
+        order by SYS_DICT_ITEM.ORDER
+    </select>
+
+
+    <select id="judgeDictItemList" resultType="com.piesat.site.system.dict.service.entity.SysDictItem">
+        select *
+        from SYS_DICT_ITEM
+        where ITEM_VALUE=#{itemValue}
+    </select>
+
+    <insert id="addDictItem" parameterType="com.piesat.site.system.dict.service.dto.AddDictItemReqDto">
+        insert into SYS_DICT_ITEM(
+        <if test="dictCode != null and dictCode != ''">DICT_CODE,</if>
+        <if test="itemCode != null and itemCode != ''">ITEM_CODE,</if>
+        <if test="itemValue != null and itemValue != ''">ITEM_VALUE,</if>
+        <if test="description != null and description != ''">DESCRIPTION,</if>
+        <if test="order != null and order != ''">ORDER,</if>
+        <if test="createDate != null ">CREATE_DATE,</if>
+        <if test="updateDate != null ">UPDATE_DATE</if>
+        )values(
+        <if test="dictCode != null and dictCode != ''">#{dictCode},</if>
+        <if test="itemCode != null and itemCode != ''">#{itemCode},</if>
+        <if test="itemValue != null and itemValue != ''">#{itemValue},</if>
+        <if test="description != null and description != ''">#{description},</if>
+        <if test="order != null and order != ''">#{order},</if>
+        <if test="createDate != null ">#{createDate},</if>
+        <if test="updateDate != null ">#{updateDate}</if>
+        )
+    </insert>
+
+    <update id="updateDictItem" parameterType="com.piesat.site.system.dict.service.dto.EditDictItemReqDto">
+        update SYS_DICT_ITEM
+        <set>
+            <if test="itemCode!=null and itemCode!=''">ITEM_CODE=#{itemCode},</if>
+            <if test="itemValue!=null and itemValue!=''">ITEM_VALUE=#{itemValue},</if>
+            <if test="order!=null and order!=''">SYS_DICT_ITEM.ORDER=#{order},</if>
+            <if test="description!=null and description!=''">DESCRIPTION=#{description},</if>
+            <if test="updateDate!=null">UPDATE_DATE=#{updateDate}</if>
+        </set>
+        where ID=#{id}
+    </update>
+
+    <delete id="deleteDictItem" parameterType="java.lang.Integer">
+        delete from SYS_DICT_ITEM where ID = #{id}
+    </delete>
+</mapper>

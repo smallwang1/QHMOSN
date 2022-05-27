@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.piesat.site.datalist.service.mapper.PbTqDataChildMapper">
+
+    <resultMap type="com.piesat.site.datalist.service.entity.PbTqDataChild" id="PbTqDataChildResult">
+        <id     property="dataClassId"          column="data_class_id"/>
+        <result property="dataName"             column="data_name"/>
+        <result property="dataCode"             column="data_code"/>
+        <result property="dDataId"              column="d_data_id"/>
+    </resultMap>
+
+    <sql id="selectDataChildVo">
+        select
+            data_class_id,
+            data_name,
+            data_code,
+            d_data_id
+        from pb_tq_data_child
+    </sql>
+
+    <select id="selectDataChildById" parameterType="java.lang.String" resultMap="PbTqDataChildResult">
+        <include refid="selectDataChildVo"/>
+        where data_class_id = #{dataClassId}
+    </select>
+</mapper>

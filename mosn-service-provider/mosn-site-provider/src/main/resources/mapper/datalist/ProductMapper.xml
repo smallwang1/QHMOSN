@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.piesat.site.datalist.service.mapper.ProductMapper">
+
+    <resultMap type="com.piesat.site.datalist.service.entity.Product" id="ProductResult">
+        <id     property="id"                column="ID"/>
+        <result property="productName"       column="PRODUCT_NAME"/>
+        <result property="status"            column="STATUS"/>
+        <result property="sort"              column="SORT"/>
+        <result property="pid"               column="PID"/>
+        <result property="isPro"             column="IS_PRO"/>
+        <result property="iconData"          column="ICON_DATA"/>
+    </resultMap>
+
+    <sql id="selectProductVo">
+        select
+            ID,
+            PRODUCT_NAME,
+            STATUS,
+            SORT,
+            PID,
+            IS_PRO,
+            ICON_DATA
+        from MGR_PRODUCT
+    </sql>
+
+    <select id="selectProductById" resultMap="ProductResult">
+        <include refid="selectProductVo"/>
+        where id = #{id} and status = '1'
+    </select>
+
+    <select id="selectProductAll" resultMap="ProductResult">
+        <include refid="selectProductVo"/>
+        where status = '1' and is_pro = '1'
+    </select>
+</mapper>

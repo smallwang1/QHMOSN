@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>office文件在线编辑</title>
+</head>
+<body style="overflow:hidden">
+<script type="text/javascript">
+
+
+    function Save() {
+        document.getElementById("PageOfficeCtrl1").WebSave();
+    }
+    function Close() {
+        window.external.close();
+}
+</script>
+<!-- 加载pageoffice控件 -->
+<div style="width:1000px;height:700px;" th:utext="${pageoffice}"> </div>
+    </body>
+    </html>

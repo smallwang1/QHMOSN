@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.piesat.site.system.dict.service.mapper.DictMapper">
+
+
+    <select id="queryDictList" parameterType="com.piesat.site.system.dict.service.dto.QueryDictReqDto" resultType="com.piesat.site.system.dict.service.entity.SysDict">
+        select DICT_CODE as dictCode,DICT_VALUE as dictValue,DESCRIPTION as description,DATA_STATUS as dataStatus
+        from SYS_DICT
+        <where>
+            <if test="dictValue!=null and dictValue!=''">
+                and DICT_VALUE=#{dictValue}
+            </if>
+            <if test="dataStatus!=null and dataStatus!=''">
+                and DATA_STATUS=#{dataStatus}
+            </if>
+
+        </where>
+    </select>
+
+    <select id="judgeDictList" resultType="com.piesat.site.system.dict.service.entity.SysDict">
+        select *
+        from SYS_DICT
+        where SYS_DICT.DICT_CODE=#{dictCode}
+    </select>
+
+    <insert id="addDict" parameterType="com.piesat.site.system.dict.service.dto.AddDictReqDto">
+            insert into SYS_DICT(
+            <if test="dictCode != null and dictCode != ''">DICT_CODE,</if>
+            <if test="dictValue != null and dictValue != ''">DICT_VALUE,</if>
+            <if test="description != null and description != ''">DESCRIPTION,</if>
+            <if test="dataStatus != null and dataStatus != ''">DATA_STATUS,</if>
+            <if test="createDate != null ">CREATE_DATE,</if>
+            <if test="updateDate != null ">UPDATE_DATE</if>
+            )values(
+            <if test="dictCode != null and dictCode != ''">#{dictCode},</if>
+            <if test="dictValue != null and dictValue != ''">#{dictValue},</if>
+            <if test="description != null and description != ''">#{description},</if>
+            <if test="dataStatus != null and dataStatus != ''">#{dataStatus},</if>
+            <if test="createDate != null ">#{createDate},</if>
+            <if test="updateDate != null ">#{updateDate}</if>
+            )
+    </insert>
+
+    <update id="updateDict" parameterType="com.piesat.site.system.dict.service.dto.EditDictReqDto">
+        update SYS_DICT
+        <set>
+            <if test="dictValue!=null and dictValue!=''">DICT_VALUE=#{dictValue},</if>
+            <if test="description!=null and description!=''">DESCRIPTION=#{description},</if>
+            <if test="updateDate!=null">UPDATE_DATE=#{updateDate}</if>
+        </set>
+        where DICT_CODE=#{dictCode}
+    </update>
+
+    <update id="banDict">
+        update SYS_DICT SET DATA_STATUS='01',UPDATE_DATE=#{updateDate}
+        where DICT_CODE=#{dictCode}
+    </update>
+
+    <update id="startDict">
+        update SYS_DICT SET DATA_STATUS='00',UPDATE_DATE=#{updateDate}
+        where DICT_CODE=#{dictCode}
+    </update>
+</mapper>

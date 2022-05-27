@@ -1,0 +1,27 @@
+spring:
+  profiles:
+    active: dev
+  cloud:
+    config:
+      fail-fast: true
+      discovery:
+        service-id: mdes-configserver
+        enabled: true
+      username: admin
+      password: admin
+      profile: ${spring.profiles.active}
+      label: ${spring.profiles.active}
+#注册地址
+eureka:
+  client:
+    serviceUrl:
+#     defaultZone: http://admin:piesat2020@10.129.90.149:9100/eureka/,http://admin:piesat202@10.129.90.150:9101/eureka
+      defaultZone: http://admin:piesat2020@localhost:9100/eureka/
+#      defaultZone: http://admin:piesat2020@10.129.18.13:9100/eureka/
+    instance:
+      instance-id: mdes-busiclogic  #自定义服务名称信息
+      prefer-ip-address: true     #访问路径可以显示IP地址
+
+#logging:
+#  level:
+#    com.piesat.site.datasearch.service.mapper: debug

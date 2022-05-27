@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.piesat.site.homepage.service.mapper.HomePageMapper">
+
+    <select id="queryColumnList" parameterType="com.piesat.site.homepage.service.dto.QueryHomeColumnReqDto"
+            resultType="com.piesat.site.homepage.service.entity.HomeColumnData">
+        select b.USER_ID     as userId,
+               b.SHOW_SORT   as showSort,
+               a.COLUMN_ID   as columnId,
+               a.COLUMN_NAME as columnName,
+               a.URL         as columnUrl,
+               a.PNG_SHOW    as columnPng,
+               a.STATUS      as columnStatus,
+               a.JUMP_LINK   as columnLink,
+               a.SORT        as columnSort,
+               a.CREATE_TIME as createTime,
+               a.CREATE_USER as createUser,
+               a.UPDATE_TIME as updateTime,
+               a.UPDATE_USER as updateUser
+        from USER_COLUMN_ROLE b
+                 left join MGR_CUSTOM_COLUMN a ON a.COLUMN_ID = b.COLUMN_ID
+        WHERE user_id = #{userId} order by showSort asc
+    </select>
+
+    <insert id="addColumn" parameterType="com.piesat.site.homepage.service.dto.AddHomeColumnReqDto">
+        INSERT INTO USER_COLUMN_ROLE (USER_ID, COLUMN_ID, SHOW_SORT)
+        values (#{userId}, #{columnId}, #{showSort})
+    </insert>
+
+
+    <select id="queryDefaultColumnList" resultType="com.piesat.site.homepage.service.entity.HomeColumnData">
+        select COLUMN_ID   as columnId,
+               COLUMN_NAME as columnName,
+               URL         as columnUrl,
+               PNG_SHOW    as columnPng,
+               STATUS      as columnStatus,
+               JUMP_LINK   as columnLink,
+               SORT        as columnSort,
+               CREATE_TIME as createTime,
+               CREATE_USER as createUser,
+               UPDATE_TIME as updateTime,
+               UPDATE_USER as updateUser
+        from MGR_CUSTOM_COLUMN
+        where STATUS = '1'
+        order by columnSort asc
+    </select>
+
+    <delete id="deleteColumn" parameterType="com.piesat.site.homepage.service.dto.AddHomeColumnReqDto">
+        delete from USER_COLUMN_ROLE
+        where COLUMN_ID = #{columnId}
+          and USER_ID = #{userId}
+    </delete>
+
+    <select id="queryMenuId" parameterType="java.lang.String" resultType="java.util.Map">
+        select MENU_ID as menuId
+        from SYS_ROLE_MENU
+        WHERE ROLE_ID = #{roleId}
+    </select>
+
+    <select id="queryProductId" parameterType="java.lang.String" resultType="java.util.Map">
+        select PRODUCT_ID as productId
+        from MGR_PRODUCT_PROTOROLE
+        WHERE ROLE_ID = #{roleId}
+    </select>
+
+    <select id="queryMenuInfo" resultType="java.util.Map">
+        select ID          as id,
+               NAME        as name,
+               PID         as pid,
+               CODE        as code,
+               APPCODE     as appcode,
+               STATUS      as status,
+               HASNEXT     as hasnext,
+               URL         as url,
+               HEAD        as head,
+               INITPARAM   as initparam,
+               FORMAT      as format,
+               TYPE_NAME   as typeName,
+               TYPE_VALUE  as typeValue,
+               TYPE_CODE   as typeCode,
+               LEVEL_NAME  as levelName,
+               LEVEL_VALUE as levelValuE,
+               LEVEL_CODE  as levelCode,
+               PRODUCT_ID  as productId,
+               PAGE_URL    as pageUrl,
+               IS_LINK     as isLink,
+               CREATE_TIME as createTime,
+               IS_PRODUCT  as isProduct,
+               SORT        as sort
+        from SYS_MENU_SELECT
+        order by sort
+    </select>
+
+    <select id="queryProductInfo" resultType="java.util.Map">
+        select ID           as id,
+               PRODUCT_NAME as producName,
+               STATUS       as status,
+               PID          as pid,
+               IS_PRO       as isPro,
+               ICON_DATA    as iconData,
+               SORT         as sort
+        from MGR_PRODUCT
+        order by sort
+    </select>
+
+</mapper>

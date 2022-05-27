@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+	http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+
+	<!--&lt;!&ndash; 配置dbcp数据源连接池 &ndash;&gt;-->
+	<!--<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">   -->
+	<!--	<property name="url"  value="jdbc:xugu://10.129.18.13:5138/mdes?ips=10.20.64.14,10.129.18.16" />-->
+	<!--	<property name="username" value="mdes" />-->
+	<!--	<property name="password" value="Mdes@321#" />-->
+    	<!--<property name="password" value="Mdes@321#" />    -->
+    	<!--<property name="testWhileIdle" value="false" />-->
+	<!--</bean> -->
+
+	<bean id="cmadaasDataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+	    <property name = "driverClassName"  value = "com.xugu.cloudjdbc.Driver" />
+		<property name="url" value="jdbc:xugu://10.129.90.70:5138/BEHF_STDB?ips=10.129.90.71,10.129.90.72,10.129.90.73,10.129.90.74"/>
+		<property name="username" value="usr_sod"/>
+		<property name="password" value="Pnmicxg2019"/>
+		<property name="initialSize" value="5"></property>
+		<property name="maxActive" value="20"></property>
+		<property name="maxWait" value="60000"></property>
+		<property name="timeBetweenEvictionRunsMillis" value="60000"></property>
+		<property name="minEvictableIdleTimeMillis" value="300000"></property>
+		<property name="validationQuery" value="SELECT 1 FROM DUAL"></property>
+		<property name="poolPreparedStatements" value="true"></property>
+		<property name="maxPoolPreparedStatementPerConnectionSize" value="20"></property>
+		<property name="connectionProperties" value="druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000"></property>
+		<property name="useGlobalDataSourceStat" value="true"></property>
+   </bean>
+
+	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+		<property name="driverClassName" value="com.xugu.cloudjdbc.Driver"/>
+<!--		<property name="url" value="jdbc:xugu://127.0.0.1:5138/QHMOSN"/>-->
+		<property name="url" value="jdbc:xugu://10.129.1.31:5138/QHMOSN"/>
+		<property name="username" value="QHMOSN"/>
+		<property name="password" value="QHMOSN@123"/>
+		<property name="testWhileIdle" value="true"/>
+		<property name="initialSize" value="15"></property>
+		<property name="maxActive" value="30"></property>
+		<property name="maxWait" value="60000"></property>
+		<property name="timeBetweenEvictionRunsMillis" value="60000"></property>
+		<property name="minEvictableIdleTimeMillis" value="300000"></property>
+		<property name="validationQuery" value="SELECT 1 FROM DUAL"></property>
+		<property name="poolPreparedStatements" value="true"></property>
+		<property name="maxPoolPreparedStatementPerConnectionSize" value="30"></property>
+		<property name="connectionProperties" value="druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000"></property>
+		<property name="useGlobalDataSourceStat" value="true"></property>
+	</bean>
+
+
+<!--	<bean id="processEngineConfiguration" class="org.activiti.engine.impl.cfg.StandaloneProcessEngineConfiguration">-->
+<!--		&lt;!&ndash;代表数据源&ndash;&gt;-->
+<!--		<property name="dataSource" ref="dataSource"></property>-->
+
+<!--		&lt;!&ndash;代表是否生成表结构&ndash;&gt;-->
+<!--		<property name="databaseSchemaUpdate" value="true"/>-->
+<!--	</bean>-->
+
+	<!--存储-->
+	<bean id="dataSourceCun" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+		<property name="driverClassName" value="com.xugu.cloudjdbc.Driver"/>
+		<property name="url" value="jdbc:xugu://10.129.90.70:5138/BEHF_STDB?ips=10.129.90.71,10.129.90.72,10.129.90.73,10.129.90.74,10.129.90.75,10.129.90.76,10.129.90.77&amp;char_set=utf8&amp;recv_mode=0"/>
+		<property name="username" value="USR_SOD"/>
+		<property name="password" value="Pnmicxg2019"/>
+		<!--<property name="testWhileIdle" value="false" />-->
+		<property name="testWhileIdle" value="true"/>
+		<property name="initialSize" value="5"></property>
+		<property name="maxActive" value="20"></property>
+		<property name="maxWait" value="60000"></property>
+		<property name="timeBetweenEvictionRunsMillis" value="60000"></property>
+		<property name="minEvictableIdleTimeMillis" value="300000"></property>
+		<property name="validationQuery" value="SELECT 1 FROM DUAL"></property>
+		<property name="poolPreparedStatements" value="true"></property>
+		<property name="maxPoolPreparedStatementPerConnectionSize" value="20"></property>
+		<!--<property name="filters" value="stat,wall"></property>-->
+		<property name="connectionProperties" value="druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000"></property>
+		<property name="useGlobalDataSourceStat" value="true"></property>
+	</bean>
+</beans>

@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.piesat.site.datasearch.service.mapper.MosnNavMenuMapper">
+
+    <resultMap type="com.piesat.site.datasearch.service.entity.MosnNavMenu" id="MosnNavMenuResult">
+        <id     property="menuId"               column="menu_id"/>
+        <result property="menuName"             column="menu_name"/>
+        <result property="parentId"             column="parent_id"/>
+        <result property="resourceArr"          column="resource_arr"/>
+        <result property="menuType"             column="menu_type"/>
+        <result property="menuIcon"             column="menu_icon"/>
+        <result property="visible"              column="visible"/>
+        <result property="status"               column="status"/>
+        <result property="orderNum"             column="order_num"/>
+        <result property="createBy"             column="create_by"/>
+        <result property="createTime"           column="create_time"/>
+        <result property="updateBy"             column="update_by"/>
+        <result property="updateTime"           column="update_time"/>
+        <result property="remark"               column="remark"/>
+    </resultMap>
+
+    <sql id="selectNavMenuVo">
+        select
+            menu_id,
+            menu_name,
+            parent_id,
+            resource_arr,
+            menu_type,
+            menu_icon,
+            visible,
+            status,
+            order_num,
+            create_by,
+            create_time,
+            update_by,
+            update_time,
+            remark
+        from mosn_nav_menu
+    </sql>
+
+    <select id="selectNavMenuList" parameterType="com.piesat.site.datasearch.service.entity.MosnNavMenu" resultMap="MosnNavMenuResult">
+        <include refid="selectNavMenuVo"/>
+        <where>
+            <if test="menuName != null and menuName != ''">
+                AND menu_name like concat('%', #{menuName}, '%')
+            </if>
+            <if test="menuType != null and menuType != ''">
+                AND menu_type = #{menuType}
+            </if>
+        </where>
+        order by order_num asc
+    </select>
+
+    <select id="selectNavMenuAll" resultMap="MosnNavMenuResult">
+        <include refid="selectNavMenuVo"/>
+        order by order_num asc
+    </select>
+
+    <select id="selectNavMenuById" parameterType="java.lang.Long" resultMap="MosnNavMenuResult">
+        <include refid="selectNavMenuVo"/>
+        where menu_id = #{menuId}
+        order by order_num asc
+    </select>
+
+    <select id="checkMenuNameUnique" parameterType="com.piesat.site.datasearch.service.entity.MosnNavMenu" resultMap="MosnNavMenuResult">
+        <include refid="selectNavMenuVo"/>
+        where menu_name=#{menuName} and parent_id = #{parentId} limit 1
+    </select>
+
+    <select id="hasChildByMenuId" resultType="Integer">
+        select count(1) from mosn_nav_menu where parent_id = #{menuId}
+    </select>
+
+    <update id="updateNavMenu" parameterType="com.piesat.site.datasearch.service.entity.MosnNavMenu">
+        update mosn_nav_menu
+        <set>
+            <if test="menuName != null and menuName != ''">menu_name = #{menuName},</if>
+            <if test="parentId != null">parent_id = #{parentId},</if>
+            <if test="resourceArr != null and resourceArr != ''">resource_arr = #{resourceArr},</if>
+            <if test="path != null and path != ''">path = #{path},</if>
+            <if test="menuType != null and menuType != ''">menu_type = #{menuType},</if>
+            <if test="menuIcon != null and menuIcon != ''">menu_icon = #{menuIcon},</if>
+            <if test="visible != null and visible != ''">visible = #{visible},</if>
+            <if test="status != null and status != ''">status = #{status},</if>
+            <if test="remark != null and remark != ''">remark = #{remark},</if>
+            update_time = sysdate()
+        </set>
+        where menu_id = #{menuId}
+    </update>
+
+    <insert id="insertNavMenu" parameterType="com.piesat.site.datasearch.service.entity.MosnNavMenu">
+        insert into mosn_nav_menu(
+        <if test="menuId != null and menuId != ''">menu_id,</if>
+        <if test="menuName != null and menuName != ''">menu_name,</if>
+        <if test="parentId != null and parentId != ''">parent_id,</if>
+        <if test="resourceArr != null and resourceArr != ''">resource_arr,</if>
+        <if test="menuType != null and menuType != ''">menu_type,</if>
+        <if test="menuIcon != null and menuIcon != ''">menu_icon,</if>
+        <if test="visible != null and visible != ''">visible,</if>
+        <if test="status != null and status != ''">status,</if>
+        <if test="orderNum != null and orderNum != ''">order_num,</if>
+        <if test="createBy != null and createBy != ''">create_by,</if>
+        <if test="remark != null and remark != ''">remark,</if>
+        create_time
+        )values(
+        <if test="menuId != null and menuId != ''">#{menuId},</if>
+        <if test="menuName != null and menuName != ''">#{menuName},</if>
+        <if test="parentId != null and parentId != ''">#{parentId},</if>
+        <if test="resourceArr != null and resourceArr != ''">#{resourceArr},</if>
+        <if test="menuType != null and menuType != ''">#{menuType},</if>
+        <if test="menuIcon != null and menuIcon != ''">#{menuIcon},</if>
+        <if test="visible != null and visible != ''">#{visible},</if>
+        <if test="status != null and status != ''">#{status},</if>
+        <if test="orderNum != null and orderNum != ''">#{orderNum},</if>
+        <if test="createBy != null and createBy != ''">#{createBy},</if>
+        <if test="remark != null and remark != ''">#{remark},</if>
+        sysdate()
+        )
+    </insert>
+
+    <delete id="deleteNavMenuById" parameterType="Long">
+        delete from mosn_nav_menu where menu_id = #{menuId}
+    </delete>
+</mapper>

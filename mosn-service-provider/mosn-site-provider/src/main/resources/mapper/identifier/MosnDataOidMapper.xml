@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.piesat.site.identifier.service.mapper.MosnDataOidMapper">
+
+    <resultMap type="com.piesat.site.identifier.service.entity.MosnDataOidEntity" id="MosnDataOidResult">
+        <id     property="id"                            column="id"/>
+        <result property="busiId"                        column="busi_id"/>
+        <result property="oidDataClass"                  column="oid_data_class"/>
+        <result property="oidChildClass"                 column="oid_child_class"/>
+        <result property="oidProduceClass"               column="oid_produce_class"/>
+        <result property="oidTimeResolution"             column="oid_time_resolution"/>
+        <result property="oidSpatialResolution"          column="oid_spatial_resolution"/>
+        <result property="oidElement"                    column="oid_element"/>
+        <result property="oidRegion"                     column="oid_region"/>
+        <result property="oidDataForm"                   column="oid_data_form"/>
+        <result property="oidProduceUnit"                column="oid_produce_unit"/>
+        <result property="dateRangeStart"                column="date_range_start"/>
+        <result property="dateRangeEnd"                  column="date_range_end"/>
+        <result property="createBy"                      column="create_by"/>
+        <result property="createTime"                    column="create_time"/>
+        <result property="updateBy"                      column="update_by"/>
+        <result property="updateTime"                    column="update_time"/>
+        <result property="remark"                        column="remark"/>
+    </resultMap>
+
+    <sql id="selectDataOidVo">
+        select
+            id,
+            busi_id,
+            oid_data_class,
+            oid_child_class,
+            oid_produce_class,
+            oid_time_resolution,
+            oid_spatial_resolution,
+            oid_element,
+            oid_region,
+            oid_data_form,
+            oid_produce_unit,
+            date_range_start,
+            date_range_end,
+            create_by,
+            create_time,
+            update_by,
+            update_time,
+            remark
+        from mosn_data_oid_entity
+    </sql>
+
+    <select id="selectDataOidList" parameterType="com.piesat.site.identifier.service.entity.MosnDataOidEntity" resultMap="MosnDataOidResult">
+        <include refid="selectDataOidVo"/>
+        <where>
+            <if test="busiId != null and busiId != ''">
+                AND busi_id = #{busiId}
+            </if>
+        </where>
+        order by order_num asc
+    </select>
+
+    <insert id="insertDataOid" parameterType="com.piesat.site.identifier.service.entity.MosnDataOidEntity">
+        insert into mosn_data_oid_entity (
+        <if test="busiId != null and busiId != ''">busi_id,</if>
+        <if test="oidDataClass != null and oidDataClass != ''">oid_data_class,</if>
+        <if test="oidChildClass != null and oidChildClass != ''">oid_child_class,</if>
+        <if test="oidProduceClass != null and oidProduceClass != ''">oid_produce_class,</if>
+        <if test="oidTimeResolution != null and oidTimeResolution != ''">oid_time_resolution,</if>
+        <if test="oidSpatialResolution != null and oidSpatialResolution != ''">oid_spatial_resolution,</if>
+        <if test="oidElement != null and oidElement != ''">oid_element,</if>
+        <if test="oidRegion != null and oidRegion != ''">oid_region,</if>
+        <if test="oidDataForm != null and oidDataForm != ''">oid_data_form,</if>
+        <if test="oidProduceUnit != null and oidProduceUnit != ''">oid_produce_unit,</if>
+        <if test="dateRangeStart != null and dateRangeStart != ''">date_range_start,</if>
+        <if test="dateRangeEnd != null and dateRangeEnd != ''">date_range_end,</if>
+        <if test="createBy != null and createBy != ''">#{createBy},</if>
+        <if test="remark != null and remark != ''">#{remark},</if>
+        create_time
+        ) values (
+        <if test="busiId != null and busiId != ''">#{busiId},</if>
+        <if test="oidDataClass != null and oidDataClass != ''">#{oidDataClass},</if>
+        <if test="oidChildClass != null and oidChildClass != ''">#{oidChildClass},</if>
+        <if test="oidProduceClass != null and oidProduceClass != ''">#{oidProduceClass},</if>
+        <if test="oidTimeResolution != null and oidTimeResolution != ''">#{oidTimeResolution},</if>
+        <if test="oidSpatialResolution != null and oidSpatialResolution != ''">#{oidSpatialResolution},</if>
+        <if test="oidElement != null and oidElement != ''">#{oidElement},</if>
+        <if test="oidRegion != null and oidRegion != ''">#{oidRegion},</if>
+        <if test="oidDataForm != null and oidDataForm != ''">#{oidDataForm},</if>
+        <if test="oidProduceUnit != null and oidProduceUnit != ''">#{oidProduceUnit},</if>
+        <if test="dateRangeStart != null and dateRangeStart != ''">#{dateRangeStart},</if>
+        <if test="dateRangeEnd != null and dateRangeEnd != ''">#{dateRangeEnd},</if>
+        <if test="createBy != null and createBy != ''">#{createBy},</if>
+        <if test="remark != null and remark != ''">#{remark},</if>
+        sysdate()
+        )
+    </insert>
+</mapper>

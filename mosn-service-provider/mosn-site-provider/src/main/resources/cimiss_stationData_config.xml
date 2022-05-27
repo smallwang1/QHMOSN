@@ -1,0 +1,145 @@
+<model dataCode = 'SURF_CHN_MUL_HOR' baseUrl = 'http://10.129.90.148/dir/api/fileApi/tqApiQuery' description = '中国地面逐小时资料' >
+	<interfaces>
+		<interface interfaceId = 'getSurfEleByTime' description = '按时间检索地面数据要素' >
+			<userId necessity = 'true' description = '用户ID' >${userId}</userId>
+			<pwd necessity = 'true' description = '用户密码' >${pwd}</pwd>
+			<dataCode necessity = 'true' description = '资料代码（单个）' >${dataCode}</dataCode>
+			<elements necessity = 'true' description = '要素字段代码；统计接口分组字段' >${elements}</elements>
+			<times necessity = 'true' description = '时间' >${times}</times>
+			<hourSeparate description = '小时取整条件（小时）' >${hourSeparate}</hourSeparate>
+			<minSeparate description = '分钟取整条件（分钟）' >${minSeparate}</minSeparate>
+			<staLevels description = '台站级别' >${staLevels}</staLevels>
+			<eleValueRanges description = '要素值范围' >${eleValueRanges}</eleValueRanges>
+			<orderBy description = '排序字段' >${orderBy}</orderBy>
+			<limitCnt description = '最大返回记录数' >${limitCnt}</limitCnt>
+			<dataFormat description = '返回格式' >json</dataFormat>
+			<dataKey description = '数据存放字段' >DS</dataKey>
+		</interface>
+		<interface interfaceId = 'getSurfEleInRegionByTime' description = '按时间地区检索地面数据要素' >
+			<userId necessity = 'true' description = '用户ID' >${userId}</userId>
+			<pwd necessity = 'true' description = '用户密码' >${pwd}</pwd>
+			<dataCode necessity = 'true' description = '资料代码（单个）' >${dataCode}</dataCode>
+			<elements necessity = 'true' description = '要素字段代码；统计接口分组字段' >${elements}</elements>
+			<times necessity = 'true' description = '时间' >${times}</times>
+			<adminCodes necessity = 'true' description = '国内行政编码' >${adminCodes}</adminCodes>
+			<hourSeparate description = '小时取整条件（小时）' >${hourSeparate}</hourSeparate>
+			<minSeparate description = '分钟取整条件（分钟）' >${minSeparate}</minSeparate>
+			<staLevels description = '台站级别' >${staLevels}</staLevels>
+			<eleValueRanges description = '要素值范围' >${eleValueRanges}</eleValueRanges>
+			<orderBy description = '排序字段' >${orderBy}</orderBy>
+			<limitCnt description = '最大返回记录数' >${limitCnt}</limitCnt>
+			<dataFormat description = '返回格式' >json</dataFormat>
+			<dataKey description = '数据存放字段' >DS</dataKey>
+		</interface>
+		<interface interfaceId = 'getSurfEleByTimeRange' description = '按时间段地区检索地面数据要素' >
+			<userId necessity = 'true' description = '用户ID' >${userId}</userId>
+			<pwd necessity = 'true' description = '用户密码' >${pwd}</pwd>
+			<dataCode necessity = 'true' description = '资料代码（单个）' >${dataCode}</dataCode>
+			<elements necessity = 'true' description = '要素字段代码；统计接口分组字段' >${elements}</elements>
+			<timeRange necessity = 'true' description = '时间' >${timeRange}</timeRange>
+			<eleValueRanges description = '要素值范围' >${eleValueRanges}</eleValueRanges>
+			<orderBy description = '排序字段' >${orderBy}</orderBy>
+			<limitCnt description = '最大返回记录数' >${limitCnt}</limitCnt>
+			<dataFormat description = '返回格式' >json</dataFormat>
+			<dataKey description = '数据存放字段' >DS</dataKey>
+		</interface>
+		<interface interfaceId = 'getSurfEleInRegionByTimeRange' description = '按时间段地区检索地面数据要素'>
+			<userId necessity = 'true' description = '用户ID' >${userId}</userId>
+			<pwd necessity = 'true' description = '用户密码' >${pwd}</pwd>
+			<dataCode necessity = 'true' description = '资料代码（单个）' >${dataCode}</dataCode>
+			<elements necessity = 'true' description = '要素字段代码；统计接口分组字段' >${elements}</elements>
+			<timeRange necessity = 'true' description = '时间' >${timeRange}</timeRange>
+			<adminCodes necessity = 'true' description = '国内行政编码' >${adminCodes}</adminCodes>
+			<eleValueRanges description = '要素值范围' >${eleValueRanges}</eleValueRanges>
+			<staLevels description = '台站级别' >${staLevels}</staLevels>
+			<orderBy description = '排序字段' >${orderBy}</orderBy>
+			<limitCnt description = '最大返回记录数' >${limitCnt}</limitCnt>
+			<dataFormat description = '返回格式' >json</dataFormat>
+			<dataKey description = '数据存放字段' >DS</dataKey>
+		</interface>
+		<interface interfaceId = 'getSurfEleByTimeRangeAndStaID' description = '按时间段台站检索地面数据要素'>
+			<userId necessity = 'true' description = '用户ID' >${userId}</userId>
+			<pwd necessity = 'true' description = '用户密码' >${pwd}</pwd>
+			<dataCode necessity = 'true' description = '资料代码（单个）' >${dataCode}</dataCode>
+			<elements necessity = 'true' description = '要素字段代码；统计接口分组字段' >${elements}</elements>
+			<staIds description = '站号' >${staIds}</staIds>
+			<timeRange  description = '时间' >${timeRang}</timeRange>
+			<eleValueRanges description = '要素值范围' >${eleValueRanges}</eleValueRanges>
+			<orderBy description = '排序字段' >${orderBy}</orderBy>
+			<limitCnt description = '最大返回记录数' >${limitCnt}</limitCnt>
+			<dataFormat description = '返回格式' >json</dataFormat>
+			<dataKey description = '数据存放字段' >DS</dataKey>
+		</interface>
+		<interface interfaceId = 'getSurfEleByTimeAndStaID' description = '按时间点台站检索地面数据要素'>
+			<userId necessity = 'true' description = '用户ID' >${userId}</userId>
+			<pwd necessity = 'true' description = '用户密码' >${pwd}</pwd>
+			<dataCode necessity = 'true' description = '资料代码（单个）' >${dataCode}</dataCode>
+			<elements necessity = 'true' description = '要素字段代码；统计接口分组字段' >${elements}</elements>
+			<staIds description = '站号' >${staIds}</staIds>
+			<times  description = '时间' >${times}</times>
+			<eleValueRanges description = '要素值范围' >${eleValueRanges}</eleValueRanges>
+			<orderBy description = '排序字段' >${orderBy}</orderBy>
+			<limitCnt description = '最大返回记录数' >${limitCnt}</limitCnt>
+			<dataFormat description = '返回格式' >json</dataFormat>
+			<dataKey description = '数据存放字段' >DS</dataKey>
+		</interface>
+		<interface interfaceId = 'statSurfEleByStaID' description = '按时间站号统计地面要素'>
+			<userId necessity = 'true' description = '用户ID' >${userId}</userId>
+			<pwd necessity = 'true' description = '用户密码' >${pwd}</pwd>
+			<dataCode necessity = 'true' description = '资料代码（单个）' >${dataCode}</dataCode>
+			<elements necessity = 'true' description = '要素字段代码；统计接口分组字段' >${elements}</elements>
+			<statEles necessity = 'true' description = '统计要素' >${statEles}</statEles>
+			<staIds description = '站号' >${staIds}</staIds>
+			<timeRange  description = '时间' >${timeRang}</timeRange>
+			<eleValueRanges description = '要素值范围' >${eleValueRanges}</eleValueRanges>
+			<orderBy description = '排序字段' >${orderBy}</orderBy>
+			<limitCnt description = '最大返回记录数' >${limitCnt}</limitCnt>
+			<dataFormat description = '返回格式' >json</dataFormat>
+			<dataKey description = '数据存放字段' >DS</dataKey>
+		</interface>
+		<interface interfaceId = 'getNEGATODataByTimeRange' description = '按时间段查询大气成分历史数据'>
+			<userId necessity = 'true' description = '用户ID' >${userId}</userId>
+			<pwd necessity = 'true' description = '用户密码' >${pwd}</pwd>
+			<dataCode necessity = 'true' description = '资料代码（单个）' >${dataCode}</dataCode>
+			<elements necessity = 'true' description = '要素字段代码；统计接口分组字段' >${elements}</elements>
+			<timeRange  description = '时间' >${timeRang}</timeRange>
+			<eleValueRanges description = '要素值范围' >${eleValueRanges}</eleValueRanges>
+			<orderBy description = '排序字段' >${orderBy}</orderBy>
+			<limitCnt description = '最大返回记录数' >${limitCnt}</limitCnt>
+			<dataFormat description = '返回格式' >json</dataFormat>
+			<dataKey description = '数据存放字段' >DS</dataKey>
+		</interface>
+		<interface interfaceId = 'getTyphInfoByTimeRange' description = '获取台风编号'>
+			<userId necessity = 'true' description = '用户ID' >${userId}</userId>
+			<pwd necessity = 'true' description = '用户密码' >${pwd}</pwd>
+			<dataCode necessity = 'true' description = '资料代码（单个）' >${dataCode}</dataCode>
+			<timeRange  description = '时间' >${timeRang}</timeRange>
+			<eleValueRanges description = '要素值范围' >${eleValueRanges}</eleValueRanges>
+			<dataFormat description = '返回格式' >json</dataFormat>
+			<dataKey description = '数据存放字段' >DS</dataKey>
+		</interface>
+		<interface interfaceId = 'getTyphByTimeRangeAndTyphCids' description = '获取台风数据'>
+			<userId necessity = 'true' description = '用户ID' >${userId}</userId>
+			<pwd necessity = 'true' description = '用户密码' >${pwd}</pwd>
+			<dataCode necessity = 'true' description = '资料代码（单个）' >${dataCode}</dataCode>
+			<elements necessity = 'true' description = '要素字段代码；统计接口分组字段' >${elements}</elements>
+			<timeRange  description = '时间' >${timeRang}</timeRange>
+			<orderBy  description = '时间' >${orderBy}</orderBy>
+			<typhCIds description = '台风编号' >${typhCIds}</typhCIds>
+			<reportCenters description = '编报中心' >${reportCenters}</reportCenters>
+			<dataFormat description = '返回格式' >json</dataFormat>
+			<dataKey description = '数据存放字段' >DS</dataKey>
+		</interface>
+		<interface interfaceId = 'getSWSJDataByTime' description = '查询水文降水数据'>
+			<dataCode necessity = 'true' description = '资料代码（单个）' >${dataCode}</dataCode>
+			<elements necessity = 'true' description = '要素字段代码；统计接口分组字段' >${elements}</elements>
+			<times  description = '时间' >${times}</times>
+			<eleValueRanges description = '要素值范围' >${eleValueRanges}</eleValueRanges>
+			<orderBy description = '排序字段' >${orderBy}</orderBy>
+			<limitCnt description = '最大返回记录数' >${limitCnt}</limitCnt>
+			<dataFormat description = '返回格式' >json</dataFormat>
+			<dataKey description = '数据存放字段' >DS</dataKey>
+		</interface>
+	</interfaces>
+</model>
+

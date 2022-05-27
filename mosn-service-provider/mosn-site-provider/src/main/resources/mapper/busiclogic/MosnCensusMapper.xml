@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.piesat.busiclogic.busic.statistics.service.mapper.MosnCensusMapper">
+
+    <resultMap type="com.piesat.common.statistics.entity.MosnCensus" id="MosnCensusResult">
+        <id     property="id"              column="ID"/>
+        <result property="censusId"        column="CENSUS_ID"/>
+        <result property="censusName"      column="CENSUS_NAME"/>
+        <result property="censusType"      column="CENSUS_TYPE"/>
+        <result property="censusDesc"      column="CENSUS_DESC"/>
+        <result property="operatorId"      column="OPERATOR_ID"/>
+        <result property="requestParam"    column="REQUEST_PARAM"/>
+        <result property="censusDate"      column="CENSUS_DATE"/>
+        <result property="censusBak1"      column="CENSUS_BAK1"/>
+        <result property="censusBak2"      column="CENSUS_BAK2"/>
+        <result property="remark"          column="remark"/>
+    </resultMap>
+
+    <sql id="selectCensusVo">
+        select
+            ID,
+            CENSUS_ID,
+            CENSUS_NAME,
+            CENSUS_TYPE,
+            CENSUS_DESC,
+            OPERATOR_ID,
+            REQUEST_PARAM,
+            CENSUS_DATE,
+            CENSUS_BAK1,
+            CENSUS_BAK2,
+            remark
+        from mosn_census
+    </sql>
+
+    <select id="selectCensusList" parameterType="com.piesat.common.statistics.entity.MosnCensus" resultMap="MosnCensusResult">
+        <include refid="selectCensusVo"/>
+        <where>
+            <if test="censusId != null and censusId != ''">
+                AND CENSUS_ID = #{censusId}
+            </if>
+            <if test="censusType != null and censusType != ''">
+                AND CENSUS_TYPE = #{censusType}
+            </if>
+            <if test="operatorId != null and operatorId != ''">
+                AND OPERATOR_ID = #{operatorId}
+            </if>
+            <if test="censusName != null and censusName != ''">
+                AND CENSUS_NAME = like concat('%', #{censusName}, '%')
+            </if>
+        </where>
+        order by CENSUS_DATE asc limit 1
+    </select>
+
+    <select id="topMenuList" parameterType="java.lang.String" resultType="com.piesat.busiclogic.busic.statistics.service.dto.CensusDto">
+        SELECT DISTINCT
+            t.censusId,
+            t.amount,
+            r.census_type AS "censusType"
+        FROM
+            mosn_census r,
+            (
+                SELECT
+                       census_id AS "censusId",
+                       count( census_id ) AS "amount"
+                FROM mosn_census
+                WHERE census_type = #{censusType}
+                GROUP BY census_id
+            ) t
+        WHERE
+            r.census_id = t.censusId
+        ORDER BY
+            t.amount DESC
+        limit 6
+    </select>
+</mapper>

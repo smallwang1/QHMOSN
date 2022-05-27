@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.piesat.site.datasearch.service.mapper.MosnOrderMapper">
+
+    <resultMap type="com.piesat.site.datasearch.service.entity.MosnOrder" id="MosnOrderResult">
+        <id     property="orderNo"          column="order_no"/>
+        <result property="orderName"        column="order_name"/>
+        <result property="orderParam"       column="order_param"/>
+        <result property="fileType"         column="file_type"/>
+        <result property="fileSize"         column="file_size"/>
+        <result property="filePath"         column="file_path"/>
+        <result property="fileName"         column="file_name"/>
+        <result property="fileStatus"       column="file_status"/>
+        <result property="orderStatus"      column="order_status"/>
+        <result property="auditBy"          column="audit_by"/>
+        <result property="auditTime"        column="audit_time"/>
+        <result property="auditReason"      column="audit_reason"/>
+        <result property="cutParam"         column="cut_param"/>
+        <result property="createBy"         column="create_by"/>
+        <result property="createTime"       column="create_time"/>
+        <result property="updateBy"         column="update_by"/>
+        <result property="updateTime"       column="update_time"/>
+        <result property="remark"           column="remark"/>
+    </resultMap>
+
+    <sql id="selectOrderVo">
+        select
+            order_no,
+            order_name,
+            order_param,
+            file_type,
+            file_size,
+            file_path,
+            file_name,
+            file_status,
+            order_status,
+            audit_by,
+            audit_time,
+            audit_reason
+            cut_param,
+            create_by,
+            create_time,
+            update_by,
+            update_time,
+            remark
+        from mosn_order
+    </sql>
+
+    <select id="selectOrderList" parameterType="com.piesat.site.datasearch.service.vo.OrderVo" resultMap="MosnOrderResult">
+        <include refid="selectOrderVo"/>
+        <where>
+            <if test="orderNo != null and orderNo != ''">
+                AND order_no = #{orderNo}
+            </if>
+            <if test="orderName != null and orderName != ''">
+                AND order_name like CONCAT(CONCAT('%', #{orderName}), '%')
+            </if>
+            <if test="fileType != null and fileType != ''">
+                AND file_type = #{fileType}
+            </if>
+            <if test="fileStatus != null and fileStatus != ''">
+                AND file_status = #{fileStatus}
+            </if>
+            <if test="orderStatus != null and orderStatus != ''">
+                AND order_status = #{orderStatus}
+            </if>
+            <if test="auditBy != null and auditBy != ''">
+                AND audit_by = #{auditBy}
+            </if>
+            <if test="startTime != null and startTime != ''">
+                <![CDATA[ and TO_DATE(#{startTime}, 'YYYY-MM-DD') <= create_time ]]>
+            </if>
+            <if test="endTime != null and endTime != ''">
+                <![CDATA[ and TO_DATE(CONCAT(#{endTime}, ' 23:59:59'), 'YYYY-MM-DD HH24:MI:SS') >= create_time ]]>
+            </if>
+        </where>
+        order by create_time desc
+    </select>
+
+    <select id="selectOrderAll" resultMap="MosnOrderResult">
+        <include refid="selectOrderVo"/>
+        order by create_time desc
+    </select>
+
+    <select id="selectOrderById" parameterType="java.lang.String" resultMap="MosnOrderResult">
+        <include refid="selectOrderVo"/>
+        where order_no = #{orderNo}
+    </select>
+
+    <update id="updateOrder" parameterType="com.piesat.site.datasearch.service.entity.MosnOrder">
+        update mosn_order
+        <set>
+            <if test="fileSize != null and fileSize != ''">file_size = #{fileSize},</if>
+            <if test="filePath != null and filePath != ''">file_path = #{filePath},</if>
+            <if test="fileName != null and fileName != ''">file_name = #{fileName},</if>
+            <if test="fileStatus != null and fileStatus != ''">file_status = #{fileStatus},</if>
+            <if test="orderStatus != null and orderStatus != ''">order_status = #{orderStatus},</if>
+            <if test="auditBy != null and auditBy != ''">audit_by = #{auditBy},</if>
+            <if test="auditTime != null">audit_time = #{auditTime},</if>
+            <if test="auditReason != null and auditReason != ''">audit_reason = #{auditReason},</if>
+            <if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="remark != null and remark != ''">remark = #{remark},</if>
+            update_time = sysdate()
+        </set>
+        where order_no = #{orderNo}
+    </update>
+
+    <insert id="insertOrder" parameterType="com.piesat.site.datasearch.service.entity.MosnOrder">
+        insert into mosn_order(
+        <if test="orderNo != null and orderNo != ''">order_no,</if>
+        <if test="orderName != null and orderName != ''">order_name,</if>
+        <if test="orderParam != null and orderParam != ''">order_param,</if>
+        <if test="fileType != null and fileType != ''">file_type,</if>
+        <if test="fileSize != null and fileSize != ''">file_size,</if>
+        <if test="filePath != null and filePath != ''">file_path,</if>
+        <if test="fileName != null and fileName != ''">file_name,</if>
+        <if test="fileStatus != null and fileStatus != ''">file_status,</if>
+        <if test="orderStatus != null and orderStatus != ''">order_status,</if>
+        <if test="cutParam != null and cutParam != ''">cut_param,</if>
+        <if test="createBy != null and createBy != ''">create_by,</if>
+        <if test="remark != null and remark != ''">remark,</if>
+        create_time
+        ) values (
+        <if test="orderNo != null and orderNo != ''">#{orderNo},</if>
+        <if test="orderName != null and orderName != ''">#{orderName},</if>
+        <if test="orderParam != null and orderParam != ''">#{orderParam},</if>
+        <if test="fileType != null and fileType != ''">#{fileType},</if>
+        <if test="fileSize != null and fileSize != ''">#{fileSize},</if>
+        <if test="filePath != null and filePath != ''">#{filePath},</if>
+        <if test="fileName != null and fileName != ''">#{fileName},</if>
+        <if test="fileStatus != null and fileStatus != ''">#{fileStatus},</if>
+        <if test="orderStatus != null and orderStatus != ''">#{orderStatus},</if>
+        <if test="cutParam != null and cutParam != ''">#{cutParam},</if>
+        <if test="createBy != null and createBy != ''">#{createBy},</if>
+        <if test="remark != null and remark != ''">#{remark},</if>
+        sysdate()
+        )
+    </insert>
+
+    <delete id="deleteOrder" parameterType="java.lang.String">
+        delete from mosn_order where order_no in
+        <foreach collection="array" item="orderNos" open="(" separator="," close=")">
+            #{orderNos}
+        </foreach>
+    </delete>
+</mapper>
